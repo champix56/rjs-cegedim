@@ -24,7 +24,7 @@ const Cart: React.FC<I_CartProps> = function (props) {
   );
 };
 const CartConnected: React.FC<{}> = (props) => {
-  const items = useSelector((s: any) => s.items);
+  const items = useSelector((s: any) => s.cart.items);
   return <Cart items={items} />;
 };
 export default CartConnected;
