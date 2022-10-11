@@ -2,7 +2,6 @@ import './home.css'
 import Item from '../components/Item'
 import { ShoppingCart } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import { useSelect } from '@mui/base'
 import { useSelector } from 'react-redux'
 
 function Home(props) {
@@ -20,20 +19,28 @@ function Home(props) {
               price={e.price}
               image={e.image}
               key={`produit-${e.id}`}
+              data-testid='map-products'
             />
           )}
         </div>
       </div>
-      <div className='shopping-cart' onClick={() => navigate('/cart')}>
+      {props.count > 0 && <div className='shopping-cart' onClick={() => navigate('/cart')}>
         <ShoppingCart id='cartIcon' />
-        <p>0</p>
-      </div>
+        <p>{props.count}</p>
+      </div>}
     </div>
   )
 }
 
 const HomeConnected = (props) => {
   const items = useSelector((s) => s.stock.items)
-  return <Home items={items} />
+  const count = useSelector((s) => {
+    let r = 0;
+    s.cart.items.map(e => {
+      r += e.quantite
+    });
+    return r;
+  })
+  return <Home items={items} count={count} />
 }
 export default HomeConnected

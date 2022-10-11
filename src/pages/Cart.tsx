@@ -1,6 +1,6 @@
 import "./cart.css";
 import Total from "../components/Total";
-import CartItem from "../components/CartItem";
+ import CartItem from "../components/CartItem/CartItem.lazy";
 import I_Item from "../interfaces/Item";
 import { useSelector } from "react-redux";
 interface I_CartProps {

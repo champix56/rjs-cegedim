@@ -5,7 +5,7 @@ import {Routes, Route} from 'react-router-dom'
 
 function App() {
   return (
-    <div className="app">
+    <div className="app" data-testid="App">
       <Routes>
         <Route  path='/' element={<Home />}/>
         <Route path='/cart' element={<Cart />}/>
