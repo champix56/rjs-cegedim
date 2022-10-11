@@ -1,7 +1,8 @@
+import { useDispatch } from 'react-redux'
+import { add } from '../store/cart';
 import './item.css'
 
-function Item({id, title, image, price}) {
-
+function Item({ id, title, image, price, addCart }) {
   return (
     <div className="item">
       <div className="item__info">
@@ -15,9 +16,12 @@ function Item({id, title, image, price}) {
         src={image}
         alt="item"
       />
-      <button>Add to Cart</button>
+      <button onClick={(evt)=>addCart({ id: id, image: image, price: price, title: title })}>Add to Cart</button>
     </div>
   )
 }
 
-export default Item
+export default function ItemConnected(props) {
+  const d = useDispatch();
+  return <Item addCart={(produit) => d(add(produit))} {...props} />
+}
