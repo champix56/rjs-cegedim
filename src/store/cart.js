@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
+export const initialState = {
   items: [],
 }
 const cart = createSlice({
@@ -27,7 +27,6 @@ const cart = createSlice({
 
         //        state.items = [...state.items.slice(0, produit_index), ...state.items.slice(produit_index + 1)] *
       }
-
     }
   }
 });
