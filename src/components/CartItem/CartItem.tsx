@@ -34,11 +34,11 @@ export const CartItem: React.FC<I_Item & I_CartItemProps> = ({
           <strong>{price}</strong>
         </p>
         <div className="cartItem__incrDec">
-          <button onClick={()=>remove({id:id,title:title,price:price,image:image})}>-</button>
+          <button data-testid="remove" onClick={()=>remove({id:id,title:title,price:price,image:image})}>-</button>
           <p>{quantite}</p>
-          <button onClick={()=>add({id:id,title:title,price:price,image:image})}>+</button>
+          <button data-testid="add" onClick={()=>add({id:id,title:title,price:price,image:image})}>+</button>
         </div>
-        <button onClick={()=>del({id:id,title:title,price:price,image:image})} className="cartItem__removeButton" >Remove</button>
+        <button data-testid="del" onClick={()=>del({id:id,title:title,price:price,image:image})} className="cartItem__removeButton" >Remove</button>
       </div>
     </div>
   );
