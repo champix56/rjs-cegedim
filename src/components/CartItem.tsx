@@ -3,7 +3,18 @@ import I_Item from "../interfaces/Item";
 import { add, del, remove } from "../store/cart";
 import "./cartItem.css";
 
-const CartItem: React.FC<I_Item&{add:Function, remove:Function,del:Function}> = ({
+interface I_CartItemProps {
+  add: (arg0: I_Item) => void,
+  remove: (arg0: I_Item) => void,
+  del: (arg0: I_Item) => void
+}
+
+/**
+ * Composant pour les items de cart
+ * @param {I_Item & I_CartItemProps }props
+ * @returns ReactELement
+ */
+export const CartItem: React.FC<I_Item & I_CartItemProps> = ({
   id,
   image,
   title,
@@ -14,7 +25,7 @@ const CartItem: React.FC<I_Item&{add:Function, remove:Function,del:Function}> = 
   del
 }) => {
   return (
-    <div className="cartItem">
+    <div className="cartItem" data-testid="CartItem">
       <img className="cartItem__image" src={image} alt="item" />
 
       <div className="cartItem__info">

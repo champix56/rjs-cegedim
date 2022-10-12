@@ -1,17 +1,30 @@
 import './total.css'
+import { useSelector } from 'react-redux'
+function Total(props) {
 
-function Total() {
- 
   return (
     <div className="total">
       <h2>ORDER SUMMARY</h2>
       <div>
         <p className="total__p">
-          total (0 items) : <strong>$0</strong>
+          total ({props.count} item{props.count>1?'s':''}) : <strong>${props.price}</strong>
         </p>
       </div>
     </div>
   )
 }
 
-export default Total
+
+function TotalConnected() {
+  const values = useSelector(s => {
+    let total = 0;
+    let count = 0;
+    s.cart.items.forEach(e => { total += (e.quantite * e.price); count += e.quantite })
+    return { total: total, count: count };
+  });
+  return (
+    <Total price={values.total} count={values.count} />
+  )
+}
+export default TotalConnected
+//export default Total

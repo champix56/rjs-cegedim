@@ -1,21 +1,24 @@
 import "./cart.css";
 import Total from "../components/Total";
-import CartItem from "../components/CartItem";
+// import CartItem from "../components/CartItem.lazy";
 import I_Item from "../interfaces/Item";
 import { useSelector } from "react-redux";
+import CartList from "../components/CartList/CartList.lazy";
+
 interface I_CartProps {
   items: Array<I_Item>;
 }
 
-const Cart: React.FC<I_CartProps> = function (props) {
+export const Cart: React.FC<I_CartProps> = function (props) {
   return (
-    <div className="cart">
+    <div className="cart" data-testid="Cart">
       <div className="cart__left">
         <div>
           <h3>Shopping Cart</h3>
         </div>
-        {props.items.map((e,i)=><CartItem {...e} key={`cartItem-${e.id}`}/>
-        )}
+        {/* {props.items.length>0&&<CartItemNL {...props.items[0]} key={`cartItem-${props.items[0].id}`}/>} */}
+        <hr/>
+        <CartList items={props.items}/>
       </div>
       <div className="cart__right">
         <Total />
