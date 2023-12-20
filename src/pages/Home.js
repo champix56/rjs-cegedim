@@ -1,66 +1,80 @@
 import './home.css'
 import Item from '../components/Item'
 import { ShoppingCart } from '@mui/icons-material'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useSelect } from '@mui/base'
+import { useSelector } from 'react-redux'
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import { useEffect, useRef, useState } from 'react'
 
-function Home() {
+function Home(props) {
 
   const navigate = useNavigate()
+  // const filedRef = useRef(null)
+  // const emptyRef = useRef(null)
+  // const [state, setstate] = useState('empty')
+  // const nodeRef = state === 'empty' ? emptyRef : filedRef
 
+  // useEffect(() => {
+  //   setstate(props.count > 0 ? 'filed' : 'empty')
+  // }, [props.count])
+  const ref = useRef(null);
+  const [state, setstate] = useState(false);
+  useEffect(() => {
+    if(!state&&props.count>0 )
+      setstate(true);
+  }, [props.count])
   return (
     <div className="home">
       <div className="home__container">
         <div className="home__row">
-          <Item
-            id={4}
-            title="Amazon Echo (3rd generation) | Smart speaker with Alexa, Charcoal Fabric"
-            price={98}
-            image="https://media.very.co.uk/i/very/P6LTG_SQ1_0000000071_CHARCOAL_SLf?$300x400_retinamobilex2$"
-          />
-          
-          <Item
-            id={2}
-            title="The Lean Startup: How Constant Innovation Create Radically Successful Businesses Paperback"
-            price={29}
-            image="https://images-na.ssl-images-amazon.com/images/I/51Zymoq7UnL.SX325_B01,204,203,200_.jpg"
-          />
-
-          <Item
-            id={3}
-            title="Samsung LC49RG90SSUXEN 49 Curve Led Gaming Monitor"
-            price={199}
-            image="https://images-na.ssl-images-amazon.com/images/I/71Swqqe7XAL._AC_SX466_.jpg"
-          />
-
-          <Item
-            id={5}
-            title="New Apple iPad Pro (12.9-inch, Wi-fi, 128GB) - Siver (4th Generation)"
-            price={598}
-            image="https://images-na.ssl-images-amazon.com/images/I/816ctt5WV5L._AC_SX385_.jpg"
-          />
-
-          <Item 
-            id={1}
-            title="Kenwood kMix Stand Miser for Baking, Stylish Kitchen Mixer with K-beater, Dough Hook and Whisk"
-            price={229}
-            image="https://st.depositphotos.com/1765561/4857/i/450/depositphotos_48579839-stock-photo-opened-blue-stand-mixer.jpg"
-            rating={4}
-          />
-        
-          <Item 
-            id={6}
-            title="Samsung LC49RG90SSUXEN 49' Curved LED Gaming Monitor - Super Ultra Wide Dual QHD 5120 x 1440"
-            price={1094}
-            image="https://images-na.ssl-images-amazon.com/images/I/6125mFrzr6L._AC_SX355_.jpg"
-          />
+          {props.items.map((e) =>
+            <Item
+              id={e.id}
+              title={e.title}
+              price={e.price}
+              image={e.image}
+              key={`produit-${e.id}`}
+            />
+          )}
         </div>
       </div>
-      <div className='shopping-cart' onClick={() => navigate('/cart')}>
-        <ShoppingCart id='cartIcon'/>
-        <p>0</p>
-      </div>
+
+      <div>
+        {/* <SwitchTransition mode={'out-in'}>  
+          <CSSTransition
+            key={state}
+            nodeRef={nodeRef}
+            addEndListener={(done) => {
+              nodeRef.current.addEventListener("transitionend", done, false);
+            }}
+            classNames="fade"
+          >
+            <div >
+              {props.count > 0 && <div ref={nodeRef} className='shopping-cart'>
+                <ShoppingCart id='cartIcon' />
+                <p>{props.count}</p></div>}
+          </div>
+        </CSSTransition>
+       </SwitchTransition> */}
+       <CSSTransition nodeRef={ref} in={state} timeout={2500} classNames="fade">
+       <div ref={ref}>
+       {props.count > 0 &&  <div className='shopping-cart' onClick={() => navigate('/cart')}>
+                <ShoppingCart id='cartIcon' />
+                <p>{props.count}</p></div>}
+                </div>
+      </CSSTransition>
+
+
     </div>
+
+    </div >
   )
 }
 
-export default Home
+const HomeConnected = (props) => {
+  const items = useSelector((s) => s.stock.items)
+  const count = useSelector((s) => { let r = 0; s.cart.items.map(e => { r += e.quantite }); return r; })
+  return <Home items={items} count={count} />
+}
+export default HomeConnected

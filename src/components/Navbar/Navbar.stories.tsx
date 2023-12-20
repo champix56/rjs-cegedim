@@ -3,7 +3,7 @@ import React from 'react'
 import Navbar from './Navbar';
 
 export default {
-  title: "Navbar",
+  title: "projet1/Navbar",
 };
 
 export const Default = () => <Navbar />;
